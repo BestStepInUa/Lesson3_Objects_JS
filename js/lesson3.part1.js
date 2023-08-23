@@ -1,4 +1,4 @@
-//! ОБ'ЄКТИ
+//! ОБ'ЄКТИ !//
 
 //TODO Створення об'єкта
 
@@ -238,7 +238,7 @@
 
 // console.log(user.name); // 'Генрі Сибола'
 
-//! МЕТОДИ ОБ'ЄКТА
+//! МЕТОДИ ОБ'ЄКТА !//
 // Досі ми розглядали об'єкти тільки як сховища взаємопов'язаних даних, наприклад, інформація про книгу тощо.
 // Об'єкти-сховища, зазвичай, знаходяться в масиві таких самих об'єктів, який є колекцією однотипних елементів.
 
@@ -305,3 +305,258 @@
 // console.log(bookShelf.getBooks()); // ['The Last Kingdom', 'The Mist', 'Dream Guardian']
 // bookShelf.removeBook("The Mist");
 // console.log(bookShelf.getBooks()); // ['The Last Kingdom', 'Dream Guardian']
+
+//! ПЕРЕБИРАННЯ ОБ'ЄКТА !//
+// На відміну від масиву або рядка, об'єкт - це неітерабельна сутність, тобто його не можна перебрати циклами for або for...of.
+
+//TODO Цикл * for...in *
+// Для перебирання об'єктів використовується спеціальний цикл for...in, який перебирає ключі об'єкта object.
+//! Даний метод(цикл) не розрізняє власних і невласних властивостей об'єкта
+
+// for (key in bookShelf) {
+//   console.log(key);
+// }
+
+// Змінна key доступна тільки в тілі циклу. На кожній ітерації в неї буде записано значення ключа(ім'я) властивості.
+// Для того, щоб отримати значення властивості з таким ключем(ім'ям), використовується синтаксис квадратних дужок.
+
+// for (key in bookShelf) {
+//   console.log(`${key}:`, bookShelf[key]);
+// }
+
+//TODO Метод * hasOwnProperty() *
+//* Розберемо концепцію власних і невласних властивостей об'єкта і навчимося правильно використовувати цикл for...in.
+
+// const animal = {
+//   legs: 4,
+// };
+// const dog = Object.create(animal);
+// dog.name = "Манго";
+
+// console.log(dog); // {name: 'Манго'}
+// console.log(dog.name); // 'Манго'
+// console.log(dog.legs); // 4
+
+// Метод Object.create(animal) створює і повертає новий об'єкт, зв'язуючи його з об'єктом animal.
+// Тому можна отримати значення властивості legs, звернувшись до нього як dog.legs,
+// хоча він відсутній в об'єкті dog - це невласна властивість з об'єкта animal.
+
+//! Оператор in, який використовується в циклі for...in, не робить різниці між власними та невласними властивостями об'єкта.
+//! Ця особливість заважає, оскільки ми завжди хочемо перебрати тільки власні властивості.
+//! Для того, щоб дізнатись, чи містить об'єкт власну властивість, використовується метод hasOwnProperty(key), який повертає true або false.
+
+// ❌ Повертає true для всіх властивостей
+// console.log("name" in dog); // true
+// console.log("legs" in dog); // true
+
+// ✅ Повертає true тільки для власних властивостей
+// console.log(dog.hasOwnProperty("name")); // true
+// console.log(dog.hasOwnProperty("legs")); // false
+
+//!Тому, перебираючи циклом for...in, необхідно на кожній ітерації додати перевірку власної властивості.
+// Навіть, якщо зараз ми впевнені у тому, що в об'єкті відсутні невласні властивості, це захистить від можливих помилок у майбутньому.
+
+//* Exp 1
+// const book = {
+//   title: "The Last Kingdom",
+//   author: "Bernard Cornwell",
+//   genres: ["historical prose", "adventure"],
+//   rating: 8.38,
+// };
+
+// for (const key in book) {
+//   // Якщо це власна властивість - виконуємо тіло if
+//   if (book.hasOwnProperty(key)) {
+//     console.log(key);
+//     console.log(`${key} is`, book[key]);
+//   }
+
+//   // Якщо це невласна властивість - нічого не робимо
+// }
+
+//* Exp 2
+// const animal = {
+//   legs: 4,
+// };
+// const dog = Object.create(animal);
+// dog.name = "Манго";
+
+// for (const key in dog) {
+//   // Якщо це власна властивість - виконуємо тіло if
+//   if (dog.hasOwnProperty(key)) {
+//     console.log(`Own property key: ${key}`);
+//     console.log(`Value of property ${key}:`, dog[key]);
+//   }
+
+//   // Якщо це невласна властивість - нічого не робимо
+// }
+
+//! Вбудований клас Object
+//? Вбудований клас Object має декілька корисних методів для роботи з об'єктами
+
+//TODO Метод * Object.keys()*
+// Object.keys(obj) приймає об'єкт і повертає масив ключів його власних властивостей.
+// Якщо об'єкт не має властивостей, метод поверне порожній масив.
+
+// const book = {
+//   title: "The Last Kingdom",
+//   author: "Bernard Cornwell",
+//   genres: ["historical prose", "adventure"],
+//   rating: 8.38,
+// };
+// const keys = Object.keys(book);
+// console.log(keys); // ['title', 'author', 'genres', 'rating']
+
+// Скомбінувавши результат Object.keys() і цикл for...of, можна зручно перебрати власні властивості об'єкта,
+// і не використовуючи цикл for...in з перевірками належності властивостей.
+
+// const book = {
+//   title: "The Last Kingdom",
+//   author: "Bernard Cornwell",
+//   genres: ["historical prose", "adventure"],
+//   rating: 8.38,
+// };
+// const keys = Object.keys(book);
+
+// // Ми перебираємо масив ключів об'єкта і на кожній ітерації отримуємо значення властивості з таким ключем.
+// for (const key of keys) {
+//   // Ключ
+//   console.log(key);
+//   // Значення властивості
+//   console.log(book[key]);
+// }
+
+//TODO Метод * Object.values() *
+// Object.values(obj) повертає масив значень його власних властивостей.
+// Якщо в об'єкті відсутні властивості, метод Object.values(obj) поверне порожній масив.
+
+// const book = {
+//   title: "The Last Kingdom",
+//   author: "Bernard Cornwell",
+//   rating: 8.38,
+// };
+// const keys = Object.keys(book);
+// console.log(keys); // ['title', 'author', 'rating']
+
+// const values = Object.values(book);
+// console.log(values); // ['The Last Kingdom', 'Bernard Cornwell', 8.38]
+
+//* Exp 1
+// Масив значень властивостей також можна перебрати циклом for...of, наприклад, для отримання загальної суми числових значень.
+
+// Припустимо, що нам потрібно порахувати загальну кількість продуктів в об'єкті формату ім'я - продукту: кількість.
+// У такому випадку, буде доречним метод Object.values() для того, щоб отримати масив усіх значень, а потім зручно додати їх.
+
+// const goods = {
+//   apples: 6,
+//   grapes: 3,
+//   bread: 4,
+//   cheese: 7,
+// };
+
+// const values = Object.values(goods); // [6, 3, 4, 7]
+
+// let total = 0;
+
+// for (const value of values) {
+//   total += value;
+// }
+
+// console.log(total); // 20
+
+//TODO  Метод * Object.entries() *
+// Object.entries(obj) повертає масив записів, кожен елемент якого, буде ще один масив з 2 - х елементів:
+// імені властивості і значення цієї властивості з об'єкта obj.
+
+// const book = {
+//   title: "The Last Kingdom",
+//   author: "Bernard Cornwell",
+//   rating: 8.38,
+// };
+// const keys = Object.keys(book);
+// console.log(keys); // ['title', 'author', 'rating']
+
+// const values = Object.values(book);
+// console.log(values); // ['The Last Kingdom', 'Bernard Cornwell', 8.38]
+
+// const entries = Object.entries(book);
+// console.log(entries); // [["title", "The Last Kingdom"], ["author", "Bernard Cornwell"], ["rating", 8.38]]
+
+//! МАСИВ ОБ'ЄКТІВ
+// Стандартний набір повсякденних завдань розробника містить маніпуляцію масивом однотипних об'єктів.
+// Це означає, що всі об'єкти в масиві гарантовано матимуть однаковий набір властивостей, але з різними значеннями.
+
+// const books = [
+//   {
+//     title: "The Last Kingdom",
+//     author: "Bernard Cornwell",
+//     rating: 8.38,
+//   },
+//   {
+//     title: "На березі спокійних вод",
+//     author: "Роберт Шеклі",
+//     rating: 8.51,
+//   },
+//   {
+//     title: "Сон смішної людини",
+//     author: "Федір Достоєвський",
+//     rating: 7.75,
+//   },
+// ];
+
+// Для перебирання такого масиву використовується стандартний цикл for...of.
+// Значення властивостей кожного об'єкта можна отримати, використовуючи синтаксис «через крапку»,
+// оскільки в кожному об'єкті набір властивостей та їх імена будуть однакові, відрізняються тільки значення.
+
+// for (const book of books) {
+//   // Об'єкт книга
+//   console.log(book);
+//   // Назва книги
+//   console.log(book.title);
+//   // Автор книги
+//   console.log(book.author);
+//   // Рейтинг книги
+//   console.log(book.rating);
+// }
+
+//*  Exp 1
+// Отримаємо список назв усіх книг в колекції books
+const books = [
+  {
+    title: "The Last Kingdom",
+    author: "Bernard Cornwell",
+    rating: 8.38,
+  },
+  {
+    title: "На березі спокійних вод",
+    author: "Роберт Шеклі",
+    rating: 8.51,
+  },
+  {
+    title: "Сон смішної людини",
+    author: "Федір Достоєвський",
+    rating: 7.75,
+  },
+];
+
+const bookNames = [];
+
+for (const book of books) {
+  bookNames.push(book.title);
+}
+
+console.log(bookNames); // ["The Last Kingdom", "На березі спокійних вод", "Сон смішної людини"]
+
+//*  Exp 2
+// Дізнаємося середній рейтинг усієї нашої колекції.
+// Для цього, додамо усі рейтинги, після чого поділимо це значення на кількість книг в колекції.
+
+let totalRating = 0;
+
+for (const book of books) {
+  totalRating += book.rating;
+}
+
+// const averageRating = (totalRating / books.length).toFixed(1);
+// console.log(averageRating); // 8.2
+console.log((totalRating / books.length).toFixed(1));
