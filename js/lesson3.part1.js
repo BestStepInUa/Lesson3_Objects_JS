@@ -79,21 +79,31 @@
 //? Звернення до вкладених властивостей
 //! Для доступу до вкладених властивостей використовується ланцюжок звернень «через крапку».
 
-// const user = {
-//   name: "Jacques Gluke",
-//   tag: "jgluke",
-//   location: {
-//     country: "Jamaica",
-//     city: "Ocho Rios",
-//   },
-//   hobbies: ["swiming", "music", "sci-fi"],
-// };
+const user = {
+  name: "Jacques Gluke",
+  tag: "jgluke",
+  location: {
+    country: "Jamaica",
+    city: "Ocho Rios",
+  },
+  hobbies: ["swiming", "music", "sci-fi"],
+};
 
 // const userLocation = user.location;
 // console.log(userLocation); // Об'єкт location
 
 // const country = user.location.country;
 // console.log(country); // 'Jamaica'
+
+// console.log(user['location'].country);
+// console.log(user['location']['city']);
+
+// console.log(user.location.country);
+// console.log(user.location['city']);
+
+// let lastHobbiesIndex = user.hobbies.length - 1;
+// console.log(user.hobbies[lastHobbiesIndex]);
+// console.log(user.hobbies[user.hobbies.length - 1]);
 
 //? Якщо значення властивості - це масив, тоді у нашому прикладі user.hobbies - звернення до цього масиву.
 //!Далі можна отримати доступ до його елементів через квадратні дужки та індекс, або використовувати властивості і методи.
@@ -521,42 +531,154 @@
 
 //*  Exp 1
 // Отримаємо список назв усіх книг в колекції books
-const books = [
-  {
-    title: "The Last Kingdom",
-    author: "Bernard Cornwell",
-    rating: 8.38,
-  },
-  {
-    title: "На березі спокійних вод",
-    author: "Роберт Шеклі",
-    rating: 8.51,
-  },
-  {
-    title: "Сон смішної людини",
-    author: "Федір Достоєвський",
-    rating: 7.75,
-  },
-];
+// const books = [
+//   {
+//     title: "The Last Kingdom",
+//     author: "Bernard Cornwell",
+//     rating: 8.38,
+//   },
+//   {
+//     title: "На березі спокійних вод",
+//     author: "Роберт Шеклі",
+//     rating: 8.51,
+//   },
+//   {
+//     title: "Сон смішної людини",
+//     author: "Федір Достоєвський",
+//     rating: 7.75,
+//   },
+// ];
 
-const bookNames = [];
+// const bookNames = [];
 
-for (const book of books) {
-  bookNames.push(book.title);
-}
+// for (const book of books) {
+//   bookNames.push(book.title);
+// }
 
-console.log(bookNames); // ["The Last Kingdom", "На березі спокійних вод", "Сон смішної людини"]
+// console.log(bookNames); // ["The Last Kingdom", "На березі спокійних вод", "Сон смішної людини"]
 
 //*  Exp 2
 // Дізнаємося середній рейтинг усієї нашої колекції.
 // Для цього, додамо усі рейтинги, після чого поділимо це значення на кількість книг в колекції.
 
-let totalRating = 0;
+// let totalRating = 0;
 
-for (const book of books) {
-  totalRating += book.rating;
-}
+// for (const book of books) {
+//   totalRating += book.rating;
+// }
 
 // const averageRating = (totalRating / books.length).toFixed(1);
 // console.log(averageRating); // 8.2
-console.log((totalRating / books.length).toFixed(1));
+// console.log((totalRating / books.length).toFixed(1));
+
+//! Деструктурізаці об'єкта
+
+// const person = {
+//   firstName: "John",
+//   age: 30,
+// };
+// const { firstName: personName } = person;
+// console.log(personName);
+
+// const {age} = person;
+// console.log(age);
+
+// ****************Практика**************** \\
+// Task - 1
+// Створи функцію яка буде приймати 3 параметри та формувати об'єкт покупки
+// 1 Назва продукту
+// 2 Кількість одиниць
+// 3 Ціна за 1 одиницю товару
+// Функція має повертати сформований об'єкт з ключами name, price, quantity, totalPrice.
+
+// function createBasket(product, quantity, price) {
+  //? exp 1
+  // totalPrice: quantity * price;
+  // const basket = {
+  //   name: product,
+  //   quantity,
+  //   price,
+  //   totalPrice
+  // }
+  // return basket;
+
+  //? exp 2
+//   return {
+//     name: product,
+//     quantity,
+//     price,
+//     totalPrice: quantity * price
+//   };
+// }
+
+// console.log(createBasket("pizza", 3, 120));
+// console.log(createBasket('aplle', 13, 1200));
+
+// Task - 2
+// Створи функцію для ведення статистики комп'ютерного клубу. Функція приймає 1 параметр це об'єкт користувачів де ключ це ім'я користувача, а значення це час оренди у хвилинах.
+// Функція повертає рядок з інформацією про те скільки було користувачів та який середній час оренди комп'ютер.
+
+// const players = {
+//   Den: 60,
+//   Kate: 130,
+//   William: 45,
+//   Matthew: 120,
+//   Ethan: 40,
+//   David: 55,
+//   };
+
+  //? exp 1
+  // function getTime(obj) {
+  //   const countPlayers = Object.keys(obj)?.length;
+  //   const values = Object.values(obj);
+  //   let totalTime = 0;
+  //   for (const value of values) {
+  //     totalTime += value;
+  //   }
+  //   return `Count of players ${countPlayers}, average time ${totalTime / countPlayers}`;
+  //   }
+  
+  //? exp 2
+//   function getTime(obj) {
+//     const entries = Object.entries(obj);
+//     let totalTime = 0;
+//     for (const entry of entries) {
+//       totalTime += entry[1];
+//     }
+//     return `Count of players ${entries.length}, average time ${totalTime / entries.length}`;
+//     }
+
+// console.log(getTime(players));
+  
+// Task - 3
+// 1 Створити функцію яка буде приймати 2 параметри
+//    1 параметр масив
+//    2 параметр назва книги
+// Функція повертає Імена юзерів (формат стрінги) в яких є дана книга ("Harry Potter") \\\ "Anna, Oleksii"
+
+// 2 Порахувати вік всіх юзерів у яких є ключ age.
+
+const friends = [
+  { name: "Anna", books: ["Bible", "Harry Potter"], age: 21 },
+  { name: "Bob", books: ["War and peace", "Romeo and Juliet"], age: 26 },
+  { name: "Alice", books: ["War and peace", "Romeo and Juliet"], age: 0 },
+  {
+    name: "Oleksii",
+    books: ["Bible", "War and peace", "Harry Potter", "Romeo and Juliet"],
+    age: 26,
+  },
+];
+
+function getUsers(arr, bookName) {
+  const users = [];
+  for (const user of arr) {
+    if (user.books.includes(bookName)) {
+      users.push(user.name);
+    }
+  }
+  return users.join(', ');
+}
+
+console.log(getUsers(friends, "Harry Potter"));
+
+console.log(getTotalAge(friends));
