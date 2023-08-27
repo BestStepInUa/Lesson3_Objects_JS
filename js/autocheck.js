@@ -23,8 +23,7 @@ const atTheOldToad = {
   removePotion(potionName) {
     for (let i = 0; i < this.potions.length; i++) {
       if (this.potions[i].name === potionName) {
-        let potionIndex = i;
-        this.potions.splice(potionIndex, 1);
+        this.potions.splice(i, 1);
         break;
       }
     }
@@ -45,8 +44,8 @@ const atTheOldToad = {
 // console.log(atTheOldToad.getPotions());
 // atTheOldToad.addPotion({ name: "Mushroom psy", price: 777 });
 // console.log(atTheOldToad.getPotions());
-// atTheOldToad.removePotion('Dragon breath');
-// console.log(atTheOldToad.getPotions());
+atTheOldToad.removePotion('Dragon breath');
+console.log(atTheOldToad.getPotions());
 // console.log(atTheOldToad.removePotion('JS Framework'));
 // atTheOldToad.updatePotionName('Stone skin', 'Invulnerability potion');
 // console.log(atTheOldToad.getPotions());
